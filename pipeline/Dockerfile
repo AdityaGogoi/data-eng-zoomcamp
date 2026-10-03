@@ -16,7 +16,7 @@ COPY "pyproject.toml" "uv.lock" ".python-version" ./
 RUN uv sync --locked --no-install-project
 
 # Copy application code
-COPY pipeline.py .
+COPY ingest_data.py .
 
 # Set entry point
-ENTRYPOINT ["python", "pipeline.py"]
+ENTRYPOINT ["python", "ingest_data.py"]

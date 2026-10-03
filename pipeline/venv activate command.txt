@@ -1,0 +1,26 @@
+source .venv/bin/activate
+
+-- Docker Postgresql command (IMPORTANT if you are trying to access Postgres DB):
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql \
+  -p 5432:5432 \
+  postgres:18
+
+-- access Postgresql via command line:
+uv run pgcli -h localhost -p 5432 -u root -d ny_taxi
+
+
+-- Running ingestion script with params
+uv run python ingest_data.py \
+  --pg-user=root \
+  --pg-pass=root \
+  --pg-host=localhost \
+  --pg-port=5432 \
+  --pg-db=ny_taxi \
+  --target-table=yellow_taxi_trips \
+  --year=2021 \
+  --month=1 \
+  --chunksize=100000
